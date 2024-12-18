@@ -6,75 +6,100 @@
 /*   By: warcharo <warcharo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 23:38:04 by warcharo          #+#    #+#             */
-/*   Updated: 2024/11/07 23:33:05 by warcharo         ###   ########.fr       */
+/*   Updated: 2024/12/19 02:56:36 by warcharo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(char *str)
+void	free_list(t_list *list)
 {
-	int	i;
+	t_list	*current;
 
-	i = 0;
-	while (str)
-		i++;
-	return (i);
+	while (list)
+	{
+		current = list;
+		list = list->next;
+		free(current->content);
+		free(current);
+	}
 }
 
-char	*ft_strdup(char *str)
+t_list	*ft_lstnew(char *content)
 {
-	char	*new;
-	char	*ptr;
+	t_list	*node;
 
-	new = (char *)malloc(ft_strlen(str) + 1);
-	if (!new)
+	node = malloc(sizeof(t_list));
+	if (!node)
 		return (NULL);
-	ptr = new;
-	while (*str)
-		*ptr++ = *str++;
-	*ptr = '\0';
-	return (new);
+	node->content = content;
+	node->next = NULL;
+	return (node);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+t_list	*ft_lstlast(t_list *lst)
 {
-	char	*new;
-	char	*ptr;
+	t_list	*last;
 
-	new = (char *) malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
-	if (!new)
+	if (!lst)
 		return (NULL);
-	ptr = new;
-	while (*s1)
-		*ptr++ = *s1++;
-	while (*s2)
-		*ptr++ = *s2++;
-	*ptr = '/0';
-	return (new);
+	last = lst;
+	while (last->next != NULL)
+	{
+		last = last->next;
+	}
+	return (last);
 }
 
-char	*ft_substr(char *s, unsigned int start, size_t len)
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	char	*substring;
+	t_list	*last_node;
+
+	if (!lst || !new)
+		return ;
+	last_node = ft_lstlast(*lst);
+	if (!last_node)
+		*lst = new;
+	else
+		last_node->next = new;
+}
+
+// Check if the content has new line
+int	have_newline(t_list *stash)
+{
 	int		i;
 
-	if (!s)
-		return (NULL);
-	if (start > ft_strlen(s))
-		len = 0;
-	if (len > ft_strlen(s) - start)
-		len = ft_strlen(s) - start;
-	substring = (char *) malloc(sizeof(char) * (len + 1));
-	if (!substring)
-		return (NULL);
+	if (!stash || !stash->content)
+		return (0);
+	stash = ft_lstlast(stash);
 	i = 0;
-	while (i < len)
+	while (stash->content[i] != '\0')
 	{
-		substring[i] = s[start];
+		if (stash->content[i] == '\n')
+			return (1);
 		i++;
-		start++;
 	}
-	substring[i] = '/0';
-	return (substring);
+	return (0);
+}
+
+// Calculate the total length of character in one line
+static int	line_length(t_list *stash)
+{
+	int	i;
+	int	length;
+
+	length = 0;
+	while (stash)
+	{
+		i = 0;
+		while (stash->content[i])
+		{
+			if (stash->content[i] == '\n')
+				return (++length);
+			i++;
+			length++;
+		}
+		stash = stash->next;
+	}
+	return (length);
 }
