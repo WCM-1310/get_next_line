@@ -37,19 +37,19 @@ t_list	*ft_lstnew(char *content)
 	return (node);
 }
 
-t_list	*ft_lstlast(t_list *lst)
-{
-	t_list	*last;
+// t_list	*ft_lstlast(t_list *lst)
+// {
+// 	t_list	*last;
 
-	if (!lst)
-		return (NULL);
-	last = lst;
-	while (last->next != NULL)
-	{
-		last = last->next;
-	}
-	return (last);
-}
+// 	if (!lst)
+// 		return (NULL);
+// 	last = lst;
+// 	while (last->next != NULL)
+// 	{
+// 		last = last->next;
+// 	}
+// 	return (last);
+// }
 
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
@@ -57,7 +57,9 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 
 	if (!lst || !new)
 		return ;
-	last_node = ft_lstlast(*lst);
+	last_node = *lst;
+	while (last_node != NULL && last_node->next != NULL)
+		last_node = last_node->next;
 	if (!last_node)
 		*lst = new;
 	else
@@ -71,7 +73,8 @@ int	have_newline(t_list *stash)
 
 	if (!stash || !stash->content)
 		return (0);
-	stash = ft_lstlast(stash);
+	while (stash->next != NULL)
+		stash = stash->next;
 	i = 0;
 	while (stash->content[i] != '\0')
 	{
@@ -83,7 +86,7 @@ int	have_newline(t_list *stash)
 }
 
 // Calculate the total length of character in one line
-static int	line_length(t_list *stash)
+int	line_length(t_list *stash)
 {
 	int	i;
 	int	length;

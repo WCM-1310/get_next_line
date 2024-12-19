@@ -15,10 +15,13 @@
 
 # include <fcntl.h>
 # include <stdlib.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <sys/fcntl.h>
 
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 5
-#endif
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10
+# endif
 
 typedef struct s_list
 {
@@ -27,11 +30,10 @@ typedef struct s_list
 }				t_list;
 
 char	*get_next_line(int fd);
-size_t	ft_strlen(const char *str);
 void	free_list(t_list *list);
-void	*ft_calloc(size_t nitems, size_t size);
 t_list	*ft_lstnew(char *content);
-t_list	*ft_lstlast(t_list *lst);
 void	ft_lstadd_back(t_list **lst, t_list *new);
+int		have_newline(t_list *stash);
+int		line_length(t_list *stash);
 
 #endif
