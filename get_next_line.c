@@ -6,7 +6,7 @@
 /*   By: warcharo <warcharo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 15:08:08 by warcharo          #+#    #+#             */
-/*   Updated: 2024/12/20 02:51:29 by warcharo         ###   ########.fr       */
+/*   Updated: 2024/12/20 13:57:25 by warcharo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ static void	read_to_buffer(int fd, t_list **stash)
 		}
 		buffer[read_char] = '\0';
 		read_content = ft_lstnew(buffer);
-		// if (!read_content)
-		// 	return ;
 		ft_lstadd_back(stash, read_content);
 	}
 }
