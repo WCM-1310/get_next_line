@@ -6,7 +6,7 @@
 /*   By: warcharo <warcharo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 15:08:08 by warcharo          #+#    #+#             */
-/*   Updated: 2024/12/19 03:16:26 by warcharo         ###   ########.fr       */
+/*   Updated: 2024/12/20 02:51:29 by warcharo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,17 @@ static void	read_to_buffer(int fd, t_list **stash)
 		if (read_char <= 0)
 		{
 			free(buffer);
+			if (read_char == -1)
+			{
+				free_list(*stash);
+				*stash = NULL;
+			}
 			return ;
 		}
 		buffer[read_char] = '\0';
 		read_content = ft_lstnew(buffer);
-		if (!read_content)
-			return ;
+		// if (!read_content)
+		// 	return ;
 		ft_lstadd_back(stash, read_content);
 	}
 }
@@ -131,11 +136,6 @@ char	*get_next_line(int fd)
 		free_list(stash);
 		stash = NULL;
 	}
-	// if (!stash)
-	// {
-	// 	free(leftover);
-	// 	stash = NULL;
-	// }
 	return (line);
 }
 
@@ -146,23 +146,22 @@ char	*get_next_line(int fd)
 // 	char	buffer[100];
 
 // 	buffer[99] = 0;
-//     fd = open("toast", O_RDONLY);
-	
-// 	while ((line = get_next_line(fd)))
-// 	{
-// 		printf("%s", line);
-// 		free(line);
-// 	}
+//     fd = open("test.txt", O_RDONLY);
 
-// 	// line = get_next_line(fd);
-// 	// printf("%s", line);
-// 	// line = get_next_line(fd);
-// 	// printf("%s", line);
-// 	// read(fd, buffer, 100);
-// 	// printf("buffer %s buffer\n", buffer);
-// 	// line = get_next_line(fd);
-// 	// printf("%s", line);
+// 	// while ((line = get_next_line(fd)))
+// 	// {
+// 	// 	printf("%s", line);
+// 	// 	free(line);
+// 	// }
 
+// 	line = get_next_line(fd);
+// 	printf("%s", line);
+// 	line = get_next_line(fd);
+// 	printf("%s", line);
+// 	read(fd, buffer, 100);
+// 	printf("%s\n", buffer);
+// 	line = get_next_line(fd);
+// 	printf("%s", line);
 
 // 	close(fd);
 // 	return (0);

@@ -6,7 +6,7 @@
 /*   By: warcharo <warcharo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 23:38:04 by warcharo          #+#    #+#             */
-/*   Updated: 2024/12/19 02:56:36 by warcharo         ###   ########.fr       */
+/*   Updated: 2024/12/20 02:40:26 by warcharo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,6 @@ t_list	*ft_lstnew(char *content)
 	node->next = NULL;
 	return (node);
 }
-
-// t_list	*ft_lstlast(t_list *lst)
-// {
-// 	t_list	*last;
-
-// 	if (!lst)
-// 		return (NULL);
-// 	last = lst;
-// 	while (last->next != NULL)
-// 	{
-// 		last = last->next;
-// 	}
-// 	return (last);
-// }
 
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
